@@ -1,0 +1,324 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    background: #d8b8cc; 
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+}
+
+#app {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    z-index: 10; /* Đảm bảo màn hình hiển thị không bị đè */
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+    z-index: -1; /* Lùi màn hình ẩn xuống dưới để không chắn phím bấm */
+}
+
+/* --- MÀN HÌNH KHÓA --- */
+.lock-panel {
+    background: #ffa8bc;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 320px;
+}
+
+.lock-panel h2 {
+    color: white;
+    margin-bottom: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.passcode-dots {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border: 2px solid white;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.dot.active {
+    background: white;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.key {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    font-size: 24px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.key:hover {
+    background: rgba(255,255,255,0.4);
+}
+
+.key:active {
+    transform: scale(0.95);
+}
+
+.key.empty {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.key.delete {
+    font-size: 20px;
+}
+
+/* --- PHONG BÌ 3D --- */
+.envelope-wrapper {
+    text-align: center;
+    cursor: pointer;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.envelope {
+    position: relative;
+    width: 340px;
+    height: 220px;
+    background: #ff8fa3; 
+    border-radius: 8px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.pocket-left-right {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #ff758f;
+    clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+    z-index: 3;
+    border-radius: 8px;
+}
+
+.pocket-bottom {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #ff4d6d;
+    clip-path: polygon(0 100%, 50% 55%, 100% 100%);
+    z-index: 4;
+    border-radius: 8px;
+}
+
+.flap-wrapper {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    transform-origin: top;
+    transition: transform 0.6s ease, z-index 0s 0.3s;
+    z-index: 5;
+}
+
+.flap {
+    position: absolute;
+    top: 0; left: 0; width: 0; height: 0;
+    border-left: 170px solid transparent;
+    border-right: 170px solid transparent;
+    border-top: 120px solid #ff8fa3;
+}
+
+.heart {
+    position: absolute;
+    top: 110px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: #ff4d6d;
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center; align-items: center;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.letter-inside {
+    position: absolute;
+    top: 10px; left: 15px; right: 15px; bottom: 10px;
+    background: white;
+    border-radius: 5px;
+    z-index: 2; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe Script', cursive;
+    color: #c9184a;
+    font-weight: bold;
+    font-size: 22px;
+    transition: transform 0.8s ease;
+}
+
+.envelope-wrapper.open .flap-wrapper {
+    transform: rotateX(180deg);
+    z-index: 1; 
+}
+
+.envelope-wrapper.open .letter-inside {
+    transform: translateY(-80px); 
+    transition-delay: 0.4s; 
+}
+
+.instruction {
+    margin-top: 30px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.3);
+    padding: 5px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* --- XẤP GIẤY THƯ (CHUẨN VIDEO) --- */
+.notebook-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 550px;
+    height: 350px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.paper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #fffdf5;
+    border-radius: 4px;
+    box-shadow: 2px 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 40px 20px 40px;
+    
+    background-image: repeating-linear-gradient(transparent, transparent 38px, #e0e0e0 38px, #e0e0e0 39px);
+    background-position: 0 10px;
+}
+
+.paper-bottom {
+    transform: rotate(-3deg) translate(-5px, 5px);
+    z-index: 1;
+}
+
+.paper-middle {
+    transform: rotate(1deg) translate(2px, -1px);
+    z-index: 2;
+}
+
+.paper-top {
+    transform: rotate(0deg);
+    z-index: 10;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
+}
+
+.throw-left {
+    transform: translateX(-100vw) translateY(10vh) rotate(-15deg) !important;
+    opacity: 0;
+}
+
+.paper-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-container {
+    font-size: 24px;
+    color: #5d4037;
+    line-height: 1.6;
+    font-family: 'Segoe Script', 'Brush Script MT', cursive;
+    text-align: center;
+    font-weight: 600;
+}
+
+.paper-footer {
+    text-align: right;
+    border-top: 1px solid transparent;
+}
+
+#page-count {
+    font-size: 13px;
+    color: #999;
+}
+
+.status-text {
+    color: white;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    animation: pulseText 1.5s infinite;
+}
+
+@keyframes pulseText {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.signature {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    pointer-events: none;
+}

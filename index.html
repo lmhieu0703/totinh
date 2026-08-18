@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Em</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="lock-screen" class="screen">
+            <div class="lock-panel">
+                <h2>Nhập mật khẩu</h2>
+                <div class="passcode-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <div class="keypad">
+                    <button class="key" data-num="1">1</button>
+                    <button class="key" data-num="2">2</button>
+                    <button class="key" data-num="3">3</button>
+                    <button class="key" data-num="4">4</button>
+                    <button class="key" data-num="5">5</button>
+                    <button class="key" data-num="6">6</button>
+                    <button class="key" data-num="7">7</button>
+                    <button class="key" data-num="8">8</button>
+                    <button class="key" data-num="9">9</button>
+                    <button class="key empty"></button>
+                    <button class="key" data-num="0">0</button>
+                    <button class="key delete" data-num="DEL">⌫</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="envelope-screen" class="screen hidden">
+            <div class="envelope-wrapper" id="envelope-btn">
+                <div class="envelope">
+                    <div class="pocket-left-right"></div>
+                    <div class="pocket-bottom"></div>
+                    
+                    <div class="letter-inside">
+                        <div class="letter-preview">Gửi em...</div>
+                    </div>
+                    
+                    <div class="flap-wrapper">
+                        <div class="flap"></div>
+                        <div class="heart">❤</div>
+                    </div>
+                </div>
+                <p class="instruction">Chạm để mở &rarr;</p>
+            </div>
+        </div>
+
+        <div id="letter-screen" class="screen hidden">
+            <div class="notebook-wrapper" id="notebook">
+                <div class="paper paper-bottom"></div>
+                <div class="paper paper-middle"></div>
+                
+                <div class="paper paper-top" id="paper-top">
+                    <div class="paper-content">
+                        <div class="text-container" id="letter-text"></div>
+                    </div>
+                    <div class="paper-footer">
+                        <span id="page-count">1/10</span>
+                    </div>
+                </div>
+            </div>
+            <p id="status-text" class="status-text">Đợi anh nhắn viết xong nhé...</p>
+        </div>
+
+        <div class="signature">L.M.Hiếu</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
